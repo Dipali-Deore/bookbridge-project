@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Bridge - Connect Seniors & Juniors</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Authentication -->
+  <div id="authContainer">
+    <div class="intro">
+      <h1>📚 Book Bridge</h1>
+      <p>Connecting Seniors & Juniors through Second-Hand Books</p>
+    </div>
+
+    <!-- Login Box -->
+    <div class="auth-box" id="loginBox">
+      <h2>Welcome Back!</h2>
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button class="btn" onclick="login()">Login</button>
+      <div class="switch-link" onclick="toggleAuth('signup')">
+        Don’t have an account? Sign Up
+      </div>
+    </div>
+
+    <!-- Signup Box -->
+    <div class="auth-box" id="signupBox" style="display:none;">
+      <h2>Join Book Bridge!</h2>
+      <input type="text" id="signupUsername" placeholder="Choose Username" required>
+      <input type="password" id="signupPassword" placeholder="Choose Password" required>
+      <button class="btn" onclick="signup()">Sign Up</button>
+      <div class="switch-link" onclick="toggleAuth('login')">
+        Already have an account? Login
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="mainApp" style="display:none;">
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <h1>📚 Book Bridge</h1>
+        <p>Connecting Seniors & Juniors through Second-Hand Books</p>
+        <button class="btn logout-btn" onclick="logout()">Logout</button>
+      </header>
+
+      <!-- Stats -->
+      <section class="stats-grid">
+        <div class="stat-card"><span id="totalBooks">0</span><p>Books Available</p></div>
+        <div class="stat-card"><span id="totalSellers">0</span><p>Senior Sellers</p></div>
+        <div class="stat-card"><span id="avgPrice">₹0</span><p>Average Price</p></div>
+        <div class="stat-card"><span id="totalSaves">₹0</span><p>Total Savings</p></div>
+      </section>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('browse')">Browse Books</button>
+        <button class="tab-btn" onclick="switchTab('sell')">Sell Books</button>
+        <button class="tab-btn" onclick="switchTab('my-listings')">My Listings</button>
+      </nav>
+
+      <!-- Browse Books -->
+      <section id="browse" class="section active">
+        <h2>📖 Browse Available Books</h2>
+        <div class="search-filter">
+          <input type="text" id="searchInput" placeholder="Search by title or author..." onkeyup="filterBooks()">
+          <select id="categoryFilter" onchange="filterBooks()">
+            <option value="">All Categories</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Medical">Medical</option>
+            <option value="Biography">Biography</option>
+            <option value="Science">Science</option>
+            <option value="Technology">Technology</option>
+            <option value="Literature">Literature</option>
+            <option value="Children">Children</option>
+          </select>
+          <select id="priceFilter" onchange="filterBooks()">
+            <option value="">All Prices</option>
+            <option value="0-100">₹0 - ₹100</option>
+            <option value="100-300">₹100 - ₹300</option>
+            <option value="300-500">₹300 - ₹500</option>
+            <option value="500+">₹500+</option>
+          </select>
+        </div>
+        <div id="booksGrid" class="books-grid"></div>
+      </section>
+
+      <!-- Sell Book -->
+      <section id="sell" class="section">
+        <h2>📚 List Your Book</h2>
+        <form onsubmit="addBook(event)" id="sellForm">
+          <div class="form-grid">
+            <div>
+              <div class="form-group">
+                <label>Book Title *</label>
+                <input type="text" id="bookTitle" required>
+              </div>
+              <div class="form-group">
+                <label>Author *</label>
+                <input type="text" id="bookAuthor" required>
+              </div>
+              <div class="form-group">
+                <label>Category *</label>
+                <select id="bookCategory" required>
+                  <option value="">Select Category</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Biography">Biography</option>
+                  <option value="Science">Science</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Literature">Literature</option>
+                  <option value="Children">Children</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Original Price (₹) *</label>
+                <input type="number" id="originalPrice" required min="1">
+              </div>
+            </div>
+            <div>
+              <div class="form-group">
+                <label>Selling Price (₹) *</label>
+                <input type="number" id="sellingPrice" required min="1">
+              </div>
+              <div class="form-group">
+                <label>Condition *</label>
+                <select id="bookCondition" required>
+                  <option value="">Select Condition</option>
+                  <option value="Like New">Like New</option>
+                  <option value="Good">Good</option>
+                  <option value="Fair">Fair</option>
+                  <option value="Poor">Poor</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" id="sellerName" required>
+              </div>
+              <div class="form-group">
+                <label>Contact Number *</label>
+                <input type="number" id="sellerContact" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="bookDescription" placeholder="Additional details about the book"></textarea>
+          </div>
+          <button type="submit" class="btn submit-btn">List My Book</button>
+        </form>
+      </section>
+
+      <!-- My Listings -->
+      <section id="my-listings" class="section">
+        <h2>📋 My Book Listings</h2>
+        <div id="myListingsGrid" class="books-grid"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
