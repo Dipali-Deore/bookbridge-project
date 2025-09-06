@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Bridge - Connect Seniors & Juniors</title>
+  <title>Book Bridge - Student Book Marketplace</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Authentication -->
   <div id="authContainer">
     <div class="intro">
-      <h1>📚 Book Bridge</h1>
-      <p>Connecting Seniors & Juniors through Second-Hand Books</p>
+      <h1>Book Bridge</h1>
+      <p>Your Student Book Marketplace - Buy & Sell Academic Books</p>
     </div>
 
     <!-- Login Box -->
@@ -19,9 +20,11 @@
       <h2>Welcome Back!</h2>
       <input type="text" id="loginUsername" placeholder="Username" required>
       <input type="password" id="loginPassword" placeholder="Password" required>
-      <button class="btn" onclick="login()">Login</button>
+      <button class="btn" onclick="login()">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
       <div class="switch-link" onclick="toggleAuth('signup')">
-        Don’t have an account? Sign Up
+        Don't have an account? Sign Up
       </div>
     </div>
 
@@ -30,7 +33,9 @@
       <h2>Join Book Bridge!</h2>
       <input type="text" id="signupUsername" placeholder="Choose Username" required>
       <input type="password" id="signupPassword" placeholder="Choose Password" required>
-      <button class="btn" onclick="signup()">Sign Up</button>
+      <button class="btn" onclick="signup()">
+        <i class="fas fa-user-plus"></i> Sign Up
+      </button>
       <div class="switch-link" onclick="toggleAuth('login')">
         Already have an account? Login
       </div>
@@ -39,43 +44,85 @@
 
   <!-- Main App -->
   <div id="mainApp" style="display:none;">
-    <div class="container">
-      <!-- Header -->
-      <header class="header">
-        <h1>📚 Book Bridge</h1>
-        <p>Connecting Seniors & Juniors through Second-Hand Books</p>
-        <button class="btn logout-btn" onclick="logout()">Logout</button>
-      </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="logo">Book Bridge</div>
+      <div class="nav-links">
+        <a href="#" class="nav-link active" onclick="switchSection('home')">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="#" class="nav-link" onclick="switchSection('browse')">
+          <i class="fas fa-book"></i> Browse
+        </a>
+        <a href="#" class="nav-link" onclick="switchSection('sell')">
+          <i class="fas fa-plus"></i> Sell
+        </a>
+        <a href="#" class="nav-link" onclick="switchSection('wishlist')">
+          <i class="fas fa-heart"></i> Wishlist
+          <span class="wishlist-badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="#" class="nav-link" onclick="switchSection('cart')">
+          <i class="fas fa-shopping-cart"></i> Cart
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <a href="#" class="nav-link" onclick="switchSection('my-listings')">
+          <i class="fas fa-list"></i> My Books
+        </a>
+        <a href="#" class="nav-link" onclick="switchSection('about')">
+          <i class="fas fa-info-circle"></i> About
+        </a>
+        <button class="btn btn-secondary" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </nav>
 
-      <!-- Stats -->
-      <section class="stats-grid">
-        <div class="stat-card"><span id="totalBooks">0</span><p>Books Available</p></div>
-        <div class="stat-card"><span id="totalSellers">0</span><p>Senior Sellers</p></div>
-        <div class="stat-card"><span id="avgPrice">₹0</span><p>Average Price</p></div>
-        <div class="stat-card"><span id="totalSaves">₹0</span><p>Total Savings</p></div>
+    <div class="container">
+      <!-- Home Section -->
+      <section id="home" class="section active">
+        <div class="hero">
+          <h1>Welcome to Book Bridge</h1>
+          <p>Connect with fellow students to buy and sell academic books at great prices!</p>
+          <button class="btn" onclick="switchSection('browse')">
+            <i class="fas fa-search"></i> Start Browsing Books
+          </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span id="totalBooks">0</span>
+            <p>Books Available</p>
+          </div>
+          <div class="stat-card">
+            <span id="totalSellers">0</span>
+            <p>Student Sellers</p>
+          </div>
+          <div class="stat-card">
+            <span id="avgPrice">₹0</span>
+            <p>Average Price</p>
+          </div>
+          <div class="stat-card">
+            <span id="totalSaves">₹0</span>
+            <p>Total Savings</p>
+          </div>
+        </div>
       </section>
 
-      <!-- Navigation Tabs -->
-      <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('browse')">Browse Books</button>
-        <button class="tab-btn" onclick="switchTab('sell')">Sell Books</button>
-        <button class="tab-btn" onclick="switchTab('my-listings')">My Listings</button>
-      </nav>
-
       <!-- Browse Books -->
-      <section id="browse" class="section active">
-        <h2>📖 Browse Available Books</h2>
+      <section id="browse" class="section">
+        <h2>Browse Available Books</h2>
         <div class="search-filter">
           <input type="text" id="searchInput" placeholder="Search by title or author..." onkeyup="filterBooks()">
           <select id="categoryFilter" onchange="filterBooks()">
             <option value="">All Categories</option>
             <option value="Engineering">Engineering</option>
             <option value="Medical">Medical</option>
-            <option value="Biography">Biography</option>
             <option value="Science">Science</option>
-            <option value="Technology">Technology</option>
+            <option value="Mathematics">Mathematics</option>
             <option value="Literature">Literature</option>
-            <option value="Children">Children</option>
+            <option value="Business">Business</option>
+            <option value="Computer Science">Computer Science</option>
           </select>
           <select id="priceFilter" onchange="filterBooks()">
             <option value="">All Prices</option>
@@ -90,7 +137,7 @@
 
       <!-- Sell Book -->
       <section id="sell" class="section">
-        <h2>📚 List Your Book</h2>
+        <h2>List Your Book</h2>
         <form onsubmit="addBook(event)" id="sellForm">
           <div class="form-grid">
             <div>
@@ -108,16 +155,23 @@
                   <option value="">Select Category</option>
                   <option value="Engineering">Engineering</option>
                   <option value="Medical">Medical</option>
-                  <option value="Biography">Biography</option>
                   <option value="Science">Science</option>
-                  <option value="Technology">Technology</option>
+                  <option value="Mathematics">Mathematics</option>
                   <option value="Literature">Literature</option>
-                  <option value="Children">Children</option>
+                  <option value="Business">Business</option>
+                  <option value="Computer Science">Computer Science</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Original Price (₹) *</label>
                 <input type="number" id="originalPrice" required min="1">
+              </div>
+              <div class="form-group">
+                <label>Book Image</label>
+                <div class="image-upload">
+                  <input type="file" id="bookImage" accept="image/*" onchange="previewImage(event)">
+                  <img id="imagePreview" class="image-preview" style="display:none;">
+                </div>
               </div>
             </div>
             <div>
@@ -141,22 +195,77 @@
               </div>
               <div class="form-group">
                 <label>Contact Number *</label>
-                <input type="number" id="sellerContact" required>
+                <input type="tel" id="sellerContact" required>
+              </div>
+              <div class="form-group">
+                <label>College/University</label>
+                <input type="text" id="sellerCollege">
               </div>
             </div>
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea id="bookDescription" placeholder="Additional details about the book"></textarea>
+            <textarea id="bookDescription" placeholder="Additional details about the book (condition notes, markings, etc.)"></textarea>
           </div>
-          <button type="submit" class="btn submit-btn">List My Book</button>
+          <button type="submit" class="btn">
+            <i class="fas fa-plus"></i> List My Book
+          </button>
         </form>
+      </section>
+
+      <!-- Wishlist -->
+      <section id="wishlist" class="section">
+        <h2>My Wishlist</h2>
+        <div id="wishlistContent"></div>
+      </section>
+
+      <!-- Cart -->
+      <section id="cart" class="section">
+        <h2>My Cart</h2>
+        <div id="cartContent"></div>
+        <div id="cartTotal" class="cart-total" style="display:none;">
+          <h3>Total: ₹<span id="totalAmount">0</span></h3>
+          <button class="btn btn-success">
+            <i class="fas fa-credit-card"></i> Proceed to Contact Sellers
+          </button>
+        </div>
       </section>
 
       <!-- My Listings -->
       <section id="my-listings" class="section">
-        <h2>📋 My Book Listings</h2>
+        <h2>My Book Listings</h2>
         <div id="myListingsGrid" class="books-grid"></div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="section">
+        <h2>About Book Bridge</h2>
+        <div class="about-content">
+          <p>Book Bridge is a dedicated platform designed specifically for students to buy and sell academic books. We understand the financial challenges students face and aim to make quality education resources more affordable and accessible.</p>
+          
+          <div class="about-features">
+            <div class="feature-card">
+              <i class="fas fa-money-bill-wave"></i>
+              <h3>Save Money</h3>
+              <p>Buy books at significantly lower prices than retail stores</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-recycle"></i>
+              <h3>Eco-Friendly</h3>
+              <p>Promote reuse and reduce waste by giving books a second life</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-users"></i>
+              <h3>Student Community</h3>
+              <p>Connect with fellow students and build academic relationships</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-shield-alt"></i>
+              <h3>Safe & Secure</h3>
+              <p>Direct communication between buyers and sellers for safe transactions</p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
